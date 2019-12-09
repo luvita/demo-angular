@@ -1,0 +1,48 @@
+/*demo*/
+::ng-deep body {
+  background-color: #ccc;
+}
+
+.d-flex {
+  display: flex;
+}
+.m-10 {
+  margin: 10px;
+}
+.w-20-percent {
+  width: 20%;
+}
+.w-30-percent {
+  width: 30%;
+}
+.w-50-percent {
+  width: 50%;
+}
+.w-100-percent {
+  width: 100%;
+}
+.h-500 {
+  height: 500px;
+}
+
+::ng-deep .output {
+  overflow: auto;
+  background-color: #fff;
+  margin: 0;
+
+  .string {
+    color: green;
+  }
+  .number {
+    color: darkorange;
+  }
+  .boolean {
+    color: blue;
+  }
+  .null {
+    color: magenta;
+  }
+  .key {
+    color: red;
+  }
+}

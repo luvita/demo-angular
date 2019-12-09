@@ -4,6 +4,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DesignPageModule } from './design-page/design-page.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
+    DragDropModule,
+    DesignPageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

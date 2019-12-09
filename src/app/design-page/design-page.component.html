@@ -1,0 +1,34 @@
+<div class="d-flex">
+  <div class="w-20-percent">
+    <div class="list-item" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart(item)"
+      (dragend)="dragEnd()">
+      {{item.name}}
+    </div>
+  </div>
+
+  <div class="page w-80-percent h-500 m-10" [class.no-event]="designPageService.showShadow"
+    (dragover)="dragOver($event)" (dragenter)="dragEnter($event)" (dragleave)="dragLeave()" (drop)="drop($event)"
+    (mousemove)="mouseMove($event)" (mouseup)="mouseUp()" #page>
+    <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
+      [style.left.px]="item.position.x" [style.top.px]="item.position.y" [ngStyle]="item.style"
+      (mousedown)="mouseDown($event, item)">
+      <div class="item-content">
+        <ng-template [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ $implicit: item }">
+        </ng-template>
+      </div>
+      <div class="item-resize item-resize-n" (click)="resizeN($event, item)"></div>
+      <div class="item-resize item-resize-ne" (click)="resizeNE($event, item)"></div>
+      <div class="item-resize item-resize-e" (click)="resizeE($event, item)"></div>
+      <div class="item-resize item-resize-se" (click)="resizeSE($event, item)"></div>
+      <div class="item-resize item-resize-s" (click)="resizeS($event, item)"></div>
+      <div class="item-resize item-resize-sw" (click)="resizeSW($event, item)"></div>
+      <div class="item-resize item-resize-w" (click)="resizeW($event, item)"></div>
+      <div class="item-resize item-resize-nw" (click)="resizeNW($event, item)"></div>
+    </div>
+    <div class="item item-drag-placeholder" *ngIf="designPageService.showShadow"
+      [style.left.px]="designPageService.positionSelect.x" [style.top.px]="designPageService.positionSelect.y"
+      [ngStyle]="designPageService.itemSelect.style">
+      <div class="item-content">{{designPageService.itemSelect.name}}</div>
+    </div>
+  </div>
+</div>
