@@ -1,4 +1,4 @@
-export class marginProperty {
+export class MarginProperty {
     top: number;
     right: number;
     bottom: number;

@@ -1,4 +1,4 @@
-export class content {
+export class Content {
     id: string;
     class: string;
 }

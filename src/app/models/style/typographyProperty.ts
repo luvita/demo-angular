@@ -1,4 +1,4 @@
-export class typographyProperty {
+export class TypographyProperty {
     fontFamily : string;
     fontWeight : number;
     textAlign : string;

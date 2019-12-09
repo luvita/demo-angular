@@ -1,4 +1,4 @@
-export class marginProperty {
+export class BackgroundImageProperty {
     image: string;
     repeat: number;
     size: string;

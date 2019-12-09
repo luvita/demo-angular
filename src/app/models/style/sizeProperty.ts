@@ -1,4 +1,4 @@
-export class sizeProperty {
+export class SizeProperty {
     Width: number;
     Height: number;
     minWidth: number;

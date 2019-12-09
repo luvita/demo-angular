@@ -1,4 +1,4 @@
-export class displayProperty {
+export class DisplayProperty {
     dispaly: string;
     position: string;
     top: number;

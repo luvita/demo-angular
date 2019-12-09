@@ -1,4 +1,4 @@
-export class borderRadiusProperty {
+export class BorderRadiusProperty {
     topLeft: string;
     topRight: number;
     bottomLeft: string;
