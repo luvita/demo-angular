@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { Component, HostListener, ViewChild, ElementRef, OnInit, Output, Input, ContentChild, TemplateRef } from '@angular/core';
 import { Position } from './model/position.component';
 import { ItemInfo } from './model/item-info.component';
@@ -17,11 +18,10 @@ export class DesignPageComponent implements OnInit {
   };
   @Output() itemsChange = new EventEmitter();
   @Input() itemDrags: ItemInfo[];
-  
-  @ContentChild(TemplateRef, { static: true }) itemTemplate : TemplateRef<any>;
-
+  @Output() onActiveItem: EventEmitter<ItemInfo> = new EventEmitter<ItemInfo>();
   constructor(
-    public designPageService: DesignPageService
+    public designPageService: DesignPageService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -30,12 +30,11 @@ export class DesignPageComponent implements OnInit {
 
   @HostListener('window:mousedown', ['$event.target'])
   onClick(targetElement: HTMLButtonElement) {
-    this.designPageService.onClick(targetElement);
+    this.designPageService.onClick(targetElement, this.onActiveItem);
   }
 
-  createElement(element: string) {
+  createElement(element: string): string {
     const el = document.createElement(element);
-    console.log(el.outerHTML)
     return el.outerHTML;
   }
 
@@ -68,7 +67,7 @@ export class DesignPageComponent implements OnInit {
   }
 
   mouseDown(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.mouseDown(event, item);
+    this.designPageService.mouseDown(event, item, this.onActiveItem);
   }
 
   mouseMove(event: MouseEvent) {

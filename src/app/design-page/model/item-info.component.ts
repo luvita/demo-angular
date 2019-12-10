@@ -1,6 +1,7 @@
 import { Position } from './position.component';
 
 export class ItemInfo {
+  id?: number = 0;
   element?: string = '';
   icon?: string = '';
   name?: string = '';

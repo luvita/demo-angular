@@ -42,6 +42,10 @@ export class AppComponent {
 
   items: ItemInfo[] = [];
 
+  onActiveItem(item: ItemInfo) {
+    console.log('active', item);
+  }
+
   syntaxHighlight(obj: Object) {
     let json = JSON.stringify(obj, undefined, 2);
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
