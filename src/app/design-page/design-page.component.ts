@@ -33,12 +33,18 @@ export class DesignPageComponent implements OnInit {
     this.designPageService.onClick(targetElement);
   }
 
-  dragStart(item: ItemInfo) {
-    this.designPageService.dragStart(item);
+  createElement(element: string) {
+    const el = document.createElement(element);
+    console.log(el.outerHTML)
+    return el.outerHTML;
   }
 
-  dragEnd() {
-    this.designPageService.dragEnd();
+  dragStart(event: DragEvent, item: ItemInfo) {
+    this.designPageService.dragStart(event, item);
+  }
+
+  dragEnd(event: DragEvent) {
+    this.designPageService.dragEnd(event);
   }
 
   dragOver(event: DragEvent) {
@@ -49,16 +55,16 @@ export class DesignPageComponent implements OnInit {
     this.designPageService.dragEnter(event);
   }
 
-  dragLeave() {
-    this.designPageService.dragLeave();
+  dragLeave(event: DragEvent) {
+    this.designPageService.dragLeave(event);
   }
 
-  drop() {
-    this.designPageService.drop();
+  drop(event: DragEvent) {
+    this.designPageService.drop(event);
   }
 
-  mouseUp() {
-    this.designPageService.mouseUp();
+  mouseUp(event: DragEvent) {
+    this.designPageService.mouseUp(event);
   }
 
   mouseDown(event: MouseEvent, item: ItemInfo) {
@@ -69,34 +75,35 @@ export class DesignPageComponent implements OnInit {
     this.designPageService.mouseMove(event);
   }
 
-  resizeN(event: MouseEvent, item: ItemInfo) {
-
+  resizeTop(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeTop(event, item);
   }
 
-  resizeNE(event: MouseEvent, item: ItemInfo) {
-
-  }
-  resizeE(event: MouseEvent, item: ItemInfo) {
-
+  resizeTopRight(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeTopRight(event, item);
   }
 
-  resizeSE(event: MouseEvent, item: ItemInfo) {
-
+  resizeRight(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeRight(event, item);
   }
 
-  resizeS(event: MouseEvent, item: ItemInfo) {
-
+  resizeBottomRight(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeBottomRight(event, item);
   }
 
-  resizeSW(event: MouseEvent, item: ItemInfo) {
-
+  resizeBottom(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeBottom(event, item);
   }
 
-  resizeW(event: MouseEvent, item: ItemInfo) {
-
+  resizeBottomLeft(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeBottomLeft(event, item);
   }
 
-  resizeNW(event: MouseEvent, item: ItemInfo) {
+  resizeLeft(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeLeft(event, item);
+  }
 
+  resizeTopLeft(event: MouseEvent, item: ItemInfo) {
+    this.designPageService.resizeTopLeft(event, item);
   }
 }

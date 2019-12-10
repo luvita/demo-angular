@@ -10,7 +10,7 @@ import { ItemInfo } from './design-page/model/item-info.component';
 export class AppComponent {
   itemDrags: ItemInfo[] = [
     {
-      type: 'input',
+      element: 'input',
       name: 'name 1',
       style: {
         width: '100px',

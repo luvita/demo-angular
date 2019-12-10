@@ -1,7 +1,6 @@
-import { Injectable, HostListener, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { Position } from '../model/position.component';
 import { ItemInfo } from '../model/item-info.component';
-
 
 @Injectable()
 export class DesignPageService {
@@ -63,11 +62,12 @@ export class DesignPageService {
     return Math.round(number / 10) * 10;
   }
 
-  dragStart(item: ItemInfo) {
+  dragStart(event: DragEvent, item: ItemInfo) {
+    event.dataTransfer.setDragImage(document.createElement('img'), 0, 0);
     this.itemSelect = item;
   }
 
-  dragEnd() {
+  dragEnd(event: DragEvent) {
     this.itemSelect = null;
     this.showShadow = false;
   }
@@ -84,16 +84,17 @@ export class DesignPageService {
     this.showShadow = true;
   }
 
-  dragLeave() {
+  dragLeave(event: DragEvent) {
     this.counterDragItem--;
     if (this.counterDragItem === 0) {
       this.showShadow = false;
     }
   }
 
-  drop() {
+  drop(event: DragEvent) {
     let item: ItemInfo = Object.assign({}, this.itemSelect);
     item.position = Object.assign({}, this.positionSelect);
+    item.style = Object.assign({}, item.style);
     this.items.push(item);
   }
 
@@ -107,7 +108,7 @@ export class DesignPageService {
     this.itemSelect = item;
   }
 
-  mouseUp() {
+  mouseUp(event: DragEvent) {
     if (this.itemSelect) {
       delete this.itemSelect.move;
     }
@@ -129,34 +130,35 @@ export class DesignPageService {
     }
   }
 
-  resizeN(event: MouseEvent, item: ItemInfo) {
+  resizeTop(event: MouseEvent, item: ItemInfo) {
+    console.log(item)
+  }
+
+  resizeTopRight(event: MouseEvent, item: ItemInfo) {
 
   }
 
-  resizeNE(event: MouseEvent, item: ItemInfo) {
-
-  }
-  resizeE(event: MouseEvent, item: ItemInfo) {
+  resizeRight(event: MouseEvent, item: ItemInfo) {
 
   }
 
-  resizeSE(event: MouseEvent, item: ItemInfo) {
+  resizeBottomRight(event: MouseEvent, item: ItemInfo) {
 
   }
 
-  resizeS(event: MouseEvent, item: ItemInfo) {
+  resizeBottom(event: MouseEvent, item: ItemInfo) {
 
   }
 
-  resizeSW(event: MouseEvent, item: ItemInfo) {
+  resizeBottomLeft(event: MouseEvent, item: ItemInfo) {
 
   }
 
-  resizeW(event: MouseEvent, item: ItemInfo) {
+  resizeLeft(event: MouseEvent, item: ItemInfo) {
 
   }
 
-  resizeNW(event: MouseEvent, item: ItemInfo) {
+  resizeTopLeft(event: MouseEvent, item: ItemInfo) {
 
   }
 }
