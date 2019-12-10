@@ -1,6 +1,7 @@
 import { Position } from './position.component';
 
 export class ItemInfo {
+  id?: number = 0;
   element?: string = '';
   icon?: string = '';
   name?: string = '';
@@ -8,6 +9,7 @@ export class ItemInfo {
     width: '0px',
     height: '0px'
   };
+  class?: any;
   active?: boolean = false;
   move?: boolean = false;
   resize?: boolean = false;

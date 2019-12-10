@@ -1,4 +1,4 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { Injectable, ElementRef, EventEmitter } from '@angular/core';
 import { Position } from '../model/position.component';
 import { ItemInfo } from '../model/item-info.component';
 
@@ -14,7 +14,7 @@ export class DesignPageService {
   pageElement: ElementRef;
 
   showShadow: boolean = false;
-
+  itemCount: number = 0;
   counterDragItem: number = 0;
 
   setPageElement(pageElement: ElementRef): void {
@@ -22,7 +22,7 @@ export class DesignPageService {
     this.positionPage = this.getBoundingClientRect(this.pageElement.nativeElement);
   }
 
-  onClick(targetElement: HTMLButtonElement) {
+  onClick(targetElement: HTMLButtonElement, onActiveItem: EventEmitter<ItemInfo>) {
     const activeElement = this.pageElement.nativeElement.querySelector('.active');
     if (activeElement) {
       const clickedInside = activeElement.contains(targetElement);
@@ -32,6 +32,7 @@ export class DesignPageService {
             delete item.active;
           }
         });
+        onActiveItem.emit(null);
       }
     }
   }
@@ -73,32 +74,41 @@ export class DesignPageService {
   }
 
   dragOver(event: DragEvent) {
-    event.preventDefault();
-    this.positionSelect.x = this.round10(event.offsetX - parseInt(this.itemSelect.style.width) / 2);
-    this.positionSelect.y = this.round10(event.offsetY - parseInt(this.itemSelect.style.height) / 2);
+    if (this.itemSelect) {
+      console.log(this.itemSelect)
+      event.preventDefault();
+      this.positionSelect.x = this.round10(event.offsetX - parseInt(this.itemSelect.style.width) / 2);
+      this.positionSelect.y = this.round10(event.offsetY - parseInt(this.itemSelect.style.height) / 2);
+    }
   }
 
   dragEnter(event: DragEvent) {
-    event.preventDefault();
-    this.counterDragItem++;
-    this.showShadow = true;
+    if (this.itemSelect) {
+      event.preventDefault();
+      this.counterDragItem++;
+      this.showShadow = true;
+    }
   }
 
   dragLeave(event: DragEvent) {
-    this.counterDragItem--;
-    if (this.counterDragItem === 0) {
-      this.showShadow = false;
+    if (this.itemSelect) {
+      this.counterDragItem--;
+      if (this.counterDragItem === 0) {
+        this.showShadow = false;
+      }
     }
   }
 
   drop(event: DragEvent) {
     let item: ItemInfo = Object.assign({}, this.itemSelect);
+    item.id = ++this.itemCount;
     item.position = Object.assign({}, this.positionSelect);
     item.style = Object.assign({}, item.style);
     this.items.push(item);
+    this.itemSelect = null;
   }
 
-  activeItem(item: ItemInfo) {
+  setActiveItem(item: ItemInfo, onActiveItem: EventEmitter<ItemInfo>) {
     this.items.forEach((item) => {
       if (item.active) {
         delete item.active;
@@ -106,17 +116,19 @@ export class DesignPageService {
     });
     item.active = true;
     this.itemSelect = item;
+    onActiveItem.emit(item);
   }
 
   mouseUp(event: DragEvent) {
     if (this.itemSelect) {
       delete this.itemSelect.move;
     }
+    this.itemSelect = null;
   }
 
-  mouseDown(event: MouseEvent, item: ItemInfo) {
+  mouseDown(event: MouseEvent, item: ItemInfo, onActiveItem: EventEmitter<ItemInfo>) {
     if (event.which === 1) {
-      this.activeItem(item);
+      this.setActiveItem(item, onActiveItem);
       item.move = true;
       this.positionOffset = this.getPositionOffset(event, item.position);
     }
@@ -131,7 +143,7 @@ export class DesignPageService {
   }
 
   resizeTop(event: MouseEvent, item: ItemInfo) {
-    console.log(item)
+    // console.log(item)
   }
 
   resizeTopRight(event: MouseEvent, item: ItemInfo) {

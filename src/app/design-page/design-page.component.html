@@ -11,10 +11,9 @@
     (dragover)="dragOver($event)" (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)"
     (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" #page>
     <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
-      [style.left.px]="item.position.x" [style.top.px]="item.position.y" [ngStyle]="item.style">
+      [style.left.px]="item.position.x" [style.top.px]="item.position.y" [ngStyle]="item.style" [ngClass]="item.class">
       <div class="item-container" (mousedown)="mouseDown($event, item)">
-        <div class="item-content" [innerHTML]="createElement(item.element)"></div>
-        {{ item.name }}
+        <div class="item-content" id="item-{{ item.id }}" [innerHTML]="createElement(item.element) | safe: 'html'"></div>
       </div>
       <div class="item-resize item-resize-top" (mousedown)="resizeTop($event, item)"></div>
       <div class="item-resize item-resize-top-right" (mousedown)="resizeTopRight($event, item)"></div>
@@ -25,7 +24,7 @@
       <div class="item-resize item-resize-left" (mousedown)="resizeLeft($event, item)"></div>
       <div class="item-resize item-resize-top-left" (mousedown)="resizeTopLeft($event, item)"></div>
     </div>
-    <div class="item item-drag-placeholder" *ngIf="designPageService.showShadow"
+    <div class="item item-drag-placeholder" *ngIf="designPageService.itemSelect && designPageService.showShadow"
       [style.left.px]="designPageService.positionSelect.x" [style.top.px]="designPageService.positionSelect.y"
       [ngStyle]="designPageService.itemSelect.style">
       <div class="item-content">{{designPageService.itemSelect.name}}</div>

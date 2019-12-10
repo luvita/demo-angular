@@ -15,6 +15,9 @@ export class AppComponent {
       style: {
         width: '100px',
         height: '20px'
+      },
+      class: {
+        test: true
       }
     },
     {
@@ -41,6 +44,10 @@ export class AppComponent {
   ];
 
   items: ItemInfo[] = [];
+
+  onActiveItem(item: ItemInfo) {
+    console.log('active', item);
+  }
 
   syntaxHighlight(obj: Object) {
     let json = JSON.stringify(obj, undefined, 2);
