@@ -11,7 +11,7 @@
     (dragover)="dragOver($event)" (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)"
     (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" #page>
     <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
-      [style.left.px]="item.position.x" [style.top.px]="item.position.y" [ngStyle]="item.style">
+      [style.left.px]="item.position.x" [style.top.px]="item.position.y" [ngStyle]="item.style" [ngClass]="item.class">
       <div class="item-container" (mousedown)="mouseDown($event, item)">
         <div class="item-content" id="item-{{ item.id }}" [innerHTML]="createElement(item.element) | safe: 'html'"></div>
       </div>

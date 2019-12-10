@@ -15,6 +15,9 @@ export class AppComponent {
       style: {
         width: '100px',
         height: '20px'
+      },
+      class: {
+        test: true
       }
     },
     {
