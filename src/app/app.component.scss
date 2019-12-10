@@ -46,3 +46,34 @@
     color: red;
   }
 }
+
+// table {
+//   width: 100%;
+  
+// }
+.bottom-item{
+  width: 50%;
+  margin: 0 auto;
+}
+.example-container {
+  height: 580px;
+  width: 300px;
+  overflow: auto;
+}
+.mt-10{
+  margin-top: 10px;
+}
+.table-data{
+  width: 98%;
+  margin: 0 auto;
+}
+
+
+table td,
+th {
+  text-overflow: ellipsis;
+  border: solid 1px rgb(191, 191, 191);
+}
+table tr {
+  height: fit-content !important;
+}

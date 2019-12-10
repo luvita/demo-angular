@@ -1,12 +1,50 @@
 <div class="d-flex">
-  <div class="w-20-percent">
-    <div class="list-item" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart(item)"
-      (dragend)="dragEnd()">
-      {{item.name}}
-    </div>
+
+
+  <div class="example-container mat-elevation-z8 mt-10">
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef style="width:35%"> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="symbol1">
+        <th mat-header-cell *matHeaderCellDef> Symbol1</th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol1}} </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
   </div>
 
-  <div class="page w-80-percent h-500 m-10" [class.no-event]="designPageService.showShadow"
+
+
+
+
+
+  <div class="page w-80-percent h-500 mt-10" [class.no-event]="designPageService.showShadow"
     (dragover)="dragOver($event)" (dragenter)="dragEnter($event)" (dragleave)="dragLeave()" (drop)="drop($event)"
     (mousemove)="mouseMove($event)" (mouseup)="mouseUp()" #page>
     <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
@@ -29,6 +67,17 @@
       [style.left.px]="designPageService.positionSelect.x" [style.top.px]="designPageService.positionSelect.y"
       [ngStyle]="designPageService.itemSelect.style">
       <div class="item-content">{{designPageService.itemSelect.name}}</div>
+    </div>
+
+  </div>
+</div>
+<div class="d-flex">
+  <div class="bottom-item-b">
+  </div>
+  <div class="bottom-item w-80-percent m-2">
+    <div class="list-item" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart(item)"
+      (dragend)="dragEnd()">
+      {{item.name}}
     </div>
   </div>
 </div>

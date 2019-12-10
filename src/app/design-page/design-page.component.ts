@@ -99,4 +99,44 @@ export class DesignPageComponent implements OnInit {
   resizeNW(event: MouseEvent, item: ItemInfo) {
 
   }
+
+  displayedColumns = ['position', 'name', 'weight', 'symbol', 'symbol1'];
+  dataSource = ELEMENT_DATA;
+
 }
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+  symbol1: string;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'C', weight: 1.0079, symbol: 'H', symbol1: 'H'},
+  {position: 2, name: 'C', weight: 4.0026, symbol: 'He', symbol1: 'H'},
+  {position: 3, name: 'C', weight: 6.941, symbol: 'Li', symbol1: 'H'},
+  {position: 4, name: 'C', weight: 9.0122, symbol: 'Be', symbol1: 'H'},
+  {position: 5, name: 'C', weight: 10.811, symbol: 'B', symbol1: 'H'},
+  {position: 6, name: 'C', weight: 12.0107, symbol: 'C', symbol1: 'H'},
+  {position: 7, name: 'C', weight: 14.0067, symbol: 'N', symbol1: 'H'},
+  {position: 8, name: 'C', weight: 15.9994, symbol: 'O', symbol1: 'H'},
+  {position: 9, name: 'C', weight: 18.9984, symbol: 'F', symbol1: 'H'},
+  {position: 10, name: 'C', weight: 20.1797, symbol: 'Ne', symbol1: 'H'},
+  {position: 7, name: 'C', weight: 14.0067, symbol: 'N', symbol1: 'H'},
+  {position: 8, name: 'C', weight: 15.9994, symbol: 'O', symbol1: 'H'},
+  {position: 9, name: 'C', weight: 18.9984, symbol: 'F', symbol1: 'H'},
+  {position: 10, name: 'C', weight: 20.1797, symbol: 'Ne', symbol1: 'H'},
+  {position: 7, name: 'C', weight: 14.0067, symbol: 'N', symbol1: 'H'},
+  {position: 8, name: 'C', weight: 15.9994, symbol: 'O', symbol1: 'H'},
+  {position: 9, name: 'C', weight: 18.9984, symbol: 'F', symbol1: 'H'},
+  {position: 10, name: 'C', weight: 20.1797, symbol: 'Ne', symbol1: 'H'},
+  {position: 7, name: 'C', weight: 14.0067, symbol: 'N', symbol1: 'H'},
+  {position: 8, name: 'C', weight: 15.9994, symbol: 'O', symbol1: 'H'},
+  {position: 9, name: 'C', weight: 18.9984, symbol: 'F', symbol1: 'H'},
+  {position: 10, name: 'C', weight: 20.1797, symbol: 'Ne', symbol1: 'H'},
+  {position: 7, name: 'C', weight: 14.0067, symbol: 'N', symbol1: 'H'},
+  {position: 8, name: 'C', weight: 15.9994, symbol: 'O', symbol1: 'H'},
+  {position: 9, name: 'C', weight: 18.9984, symbol: 'F', symbol1: 'H'},
+  {position: 10, name: 'C', weight: 20.1797, symbol: 'Ne', symbol1: 'H'},
+];

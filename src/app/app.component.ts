@@ -14,14 +14,17 @@ export class AppComponent {
       name: 'name 1',
       style: {
         width: '100px',
-        height: '20px'
+        height: '20px',
       }
     },
     {
       name: 'name 2',
       style: {
         width: '200px',
-        height: '20px'
+        height: '20px',
+        backgroundColor: 'red',
+        textAlign: 'center',
+        float : 'left'
       }
     },
     {
@@ -61,4 +64,22 @@ export class AppComponent {
       return '<span class="' + cls + '">' + match + '</span>';
     });
   }
+
+
+  displayedColumns = ['position', 'name', 'weight'];
+  dataSource = ELEMENT_DATA;
+
+  
 }
+export interface PeriodicElement {
+  name: string;
+  position: string;
+  weight: string;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 'Width', name: '1', weight:' '},
+  {position: 'Height', name: '1', weight: ' '},
+  {position: 'border', name: '1', weight:' '},
+  {position: 'background Color', name: '/d/abc.img', weight: ' '},
+];
