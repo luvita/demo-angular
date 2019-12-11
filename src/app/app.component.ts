@@ -34,7 +34,9 @@ export class AppComponent {
       },
       style: {
         width: '100px',
-        height: '20px'
+        height: '20px',
+        borderStyle: 'solid',
+        borderWidth: '1px'
       }
     },
     {

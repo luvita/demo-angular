@@ -1,7 +1,7 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { Component, HostListener, ViewChild, ElementRef, OnInit, Output, Input, ContentChild, TemplateRef, Renderer2, ChangeDetectionStrategy } from '@angular/core';
 import { Position } from './model/position.component';
-import { ItemInfo } from './model/item-info.component';
+import { ItemInfo, Resize } from './model/item-info.component';
 import { DesignPageService } from './services/design-page.service';
 import { EventEmitter } from '@angular/core';
 
@@ -122,34 +122,34 @@ export class DesignPageComponent implements OnInit {
   }
 
   resizeTop(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeTop(event, item);
+    this.designPageService.resize(event, item, Resize.TOP);
   }
 
   resizeTopRight(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeTopRight(event, item);
+    this.designPageService.resize(event, item, Resize.TOPRIGHT);
   }
 
   resizeRight(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeRight(event, item);
+    this.designPageService.resize(event, item, Resize.RIGHT);
   }
 
   resizeBottomRight(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeBottomRight(event, item);
+    this.designPageService.resize(event, item, Resize.BOTTOMRIGHT);
   }
 
   resizeBottom(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeBottom(event, item);
+    this.designPageService.resize(event, item, Resize.BOTTOM);
   }
 
   resizeBottomLeft(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeBottomLeft(event, item);
+    this.designPageService.resize(event, item, Resize.BOTTOMLEFT);
   }
 
   resizeLeft(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeLeft(event, item);
+    this.designPageService.resize(event, item, Resize.LEFT);
   }
 
   resizeTopLeft(event: MouseEvent, item: ItemInfo) {
-    this.designPageService.resizeTopLeft(event, item);
+    this.designPageService.resize(event, item, Resize.TOPLEFT);
   }
 }

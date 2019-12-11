@@ -1,8 +1,8 @@
 <div class="d-flex">
-  <div class="w-20-percent">
-    <div class="list-item" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart($event, item)"
+  <div class="item-drag-list w-20-percent">
+    <div class="item-drag" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart($event, item)"
       (dragend)="dragEnd($event)">
-      <mat-icon aria-hidden="false">{{item.icon}}</mat-icon> {{item.name}}
+      <mat-icon class="item-drag-icon" aria-hidden="false">{{item.icon}}</mat-icon> {{item.name}}
     </div>
   </div>
 
@@ -11,7 +11,7 @@
     (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" #page>
     <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
       [style.left.px]="item.position.x" [style.top.px]="item.position.y" [style.width.px]="getWidth(item)" [style.height.px]="getHeight(item)">
-      <div class="item-container" (mousedown)="mouseDown($event, item)">
+      <div class="item-container" [ngClass]="item.element" (mousedown)="mouseDown($event, item)">
         <div class="item-content" [id]="'item-' + item.id" [innerHTML]="createElement(item) | safe: 'html'" [ngClass]="item.class"></div>
       </div>
       <div class="item-resize item-resize-top" (mousedown)="resizeTop($event, item)"></div>

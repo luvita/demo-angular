@@ -1,5 +1,16 @@
 import { Position } from './position.component';
 
+export enum Resize {
+  TOP = 1,
+  TOPRIGHT = 2,
+  RIGHT = 3,
+  BOTTOMRIGHT = 4,
+  BOTTOM = 5,
+  BOTTOMLEFT = 6,
+  LEFT = 7,
+  TOPLEFT = 8
+}
+
 export class ItemInfo {
   id?: number = 0;
   element?: string = '';
@@ -13,6 +24,6 @@ export class ItemInfo {
   class?: any = {};
   active?: boolean = false;
   move?: boolean = false;
-  resize?: string = '';
+  resize?: Resize;
   position?: Position;
 }

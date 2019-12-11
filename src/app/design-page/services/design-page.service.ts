@@ -1,6 +1,6 @@
 import { Injectable, ElementRef, EventEmitter } from '@angular/core';
 import { Position } from '../model/position.component';
-import { ItemInfo } from '../model/item-info.component';
+import { ItemInfo, Resize } from '../model/item-info.component';
 
 @Injectable()
 export class DesignPageService {
@@ -138,55 +138,88 @@ export class DesignPageService {
   mouseMove(event: MouseEvent) {
     if (event.which === 1 && this.itemSelect && this.itemSelect.active) {
       const position = this.getPosition(event);
-      const x = this.round10(position.x);
-      const y = this.round10(position.y);
       if (this.itemSelect.move) {
         this.itemSelect.position.x = this.round10(position.x - this.positionOffset.x);
         this.itemSelect.position.y = this.round10(position.y - this.positionOffset.y);
-      } else if (this.itemSelect.resize === 'top') {
+      } else if (this.itemSelect.resize) {
+        const x = this.round10(position.x);
+        const y = this.round10(position.y);
         const oldX = this.itemSelect.position.x;
         const oldY = this.itemSelect.position.y;
-        const newY = parseInt(this.itemSelect.style.height) + oldY - y;
-        if (newY > 10) {
-          this.itemSelect.position.y = y;
-          this.itemSelect.style.height = newY + 'px';
+        let newX: number = 0;
+        let newY: number = 0;
+        switch (this.itemSelect.resize) {
+          case Resize.TOP:
+            newY = parseInt(this.itemSelect.style.height) + oldY - y;
+            if (newY > 10) {
+              this.itemSelect.position.y = y;
+              this.itemSelect.style.height = newY + 'px';
+            }
+            break;
+          case Resize.TOPRIGHT:
+            newX = x - oldX;
+            newY = parseInt(this.itemSelect.style.height) + oldY - y;
+            if (newX > 10 && newY > 10) {
+              this.itemSelect.position.y = y;
+              this.itemSelect.style.height = newY + 'px';
+              this.itemSelect.style.width = x - oldX + 'px';
+            }
+            break;
+          case Resize.RIGHT:
+            newX = x - oldX;
+            if (newX > 10) {
+              this.itemSelect.style.width = x - oldX + 'px';
+            }
+            break;
+          case Resize.BOTTOMRIGHT:
+            newX = x - oldX;
+            newY = y - oldY;
+            if (newX > 10 && newY > 10) {
+              this.itemSelect.style.width = x - oldX + 'px';
+              this.itemSelect.style.height = y - oldY + 'px';
+            }
+            break;
+          case Resize.BOTTOM:
+            newY = y - oldY;
+            if (newY > 10) {
+              this.itemSelect.style.height = y - oldY + 'px';
+            }
+            break;
+          case Resize.BOTTOMLEFT:
+            newX = parseInt(this.itemSelect.style.width) + oldX - x;
+            newY = y - oldY;
+            if (newX > 10 && newY > 10) {
+              this.itemSelect.position.x = x;
+              this.itemSelect.style.width = newX + 'px';
+              this.itemSelect.style.height = y - oldY + 'px';
+            }
+            break;
+          case Resize.LEFT:
+            newX = parseInt(this.itemSelect.style.width) + oldX - x;
+            if (newX > 10) {
+              this.itemSelect.position.x = x;
+              this.itemSelect.style.width = newX + 'px';
+            }
+            break;
+          case Resize.TOPLEFT:
+              newX = parseInt(this.itemSelect.style.width) + oldX - x;
+              newY = parseInt(this.itemSelect.style.height) + oldY - y;
+              if (newX > 10 && newY > 10) {
+                this.itemSelect.position.x = x;
+                this.itemSelect.style.width = newX + 'px';
+                this.itemSelect.position.y = y;
+                this.itemSelect.style.height = newY + 'px';
+              }
+            break;
         }
       }
     }
   }
 
-  resizeTop(event: MouseEvent, item: ItemInfo) {
+  resize(event: MouseEvent, item: ItemInfo, type: Resize) {
     if (event.which === 1) {
-      item.resize = 'top';
+      item.resize = type;
       this.itemSelect = item;
     }
-  }
-
-  resizeTopRight(event: MouseEvent, item: ItemInfo) {
-
-  }
-
-  resizeRight(event: MouseEvent, item: ItemInfo) {
-
-  }
-
-  resizeBottomRight(event: MouseEvent, item: ItemInfo) {
-
-  }
-
-  resizeBottom(event: MouseEvent, item: ItemInfo) {
-
-  }
-
-  resizeBottomLeft(event: MouseEvent, item: ItemInfo) {
-
-  }
-
-  resizeLeft(event: MouseEvent, item: ItemInfo) {
-
-  }
-
-  resizeTopLeft(event: MouseEvent, item: ItemInfo) {
-
   }
 }
