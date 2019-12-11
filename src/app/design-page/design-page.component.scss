@@ -166,3 +166,12 @@
 .h-500 {
   height: 500px;
 }
+
+p {
+  font-family: Lato;
+}
+.app-wrapper > .item-container > .item-content > * {
+  background-color: var(--background);
+  color: var(--text-color);
+  border : var(--border);
+}

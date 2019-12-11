@@ -4,6 +4,7 @@ import { Position } from './model/position.component';
 import { ItemInfo, Resize } from './model/item-info.component';
 import { DesignPageService } from './services/design-page.service';
 import { EventEmitter } from '@angular/core';
+import { ThemeService } from '../theme/theme.service';
 
 @Component({
   selector: 'design-page',
@@ -21,6 +22,7 @@ export class DesignPageComponent implements OnInit {
   @Input() itemDrags: ItemInfo[];
   @Output() onActiveItem: EventEmitter<ItemInfo> = new EventEmitter<ItemInfo>();
   constructor(
+    private themService: ThemeService,
     public designPageService: DesignPageService,
     private hostRef: ElementRef,
     private renderer: Renderer2
@@ -112,8 +114,15 @@ export class DesignPageComponent implements OnInit {
   mouseUp(event: DragEvent) {
     this.designPageService.mouseUp(event);
   }
-
+  activeThem = 'oceanBlueThemProps';
   mouseDown(event: MouseEvent, item: ItemInfo) {
+    if (this.activeThem !== 'deepPurpleThemProps') {
+      this.themService.setActiveThem('deepPurpleThemProps');
+      this.activeThem = 'deepPurpleThemProps';
+    } else {
+      this.themService.setActiveThem('oceanBlueThemProps');
+      this.activeThem = 'oceanBlueThemProps';
+    }
     this.designPageService.mouseDown(event, item, this.onActiveItem);
   }
 

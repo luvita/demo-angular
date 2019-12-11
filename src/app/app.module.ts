@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DesignPageModule } from './design-page/design-page.module';
+import { ThemeModule } from './theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DesignPageModule } from './design-page/design-page.module';
     BrowserAnimationsModule,
     MatSliderModule,
     DragDropModule,
-    DesignPageModule
+    DesignPageModule,
+    ThemeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

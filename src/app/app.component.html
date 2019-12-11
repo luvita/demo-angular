@@ -2,11 +2,6 @@
 
 
 <div class="d-flex">
-  <!-- <div class="w-20-percent">
-    <div class="list-item" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart(item)"
-      (dragend)="dragEnd()">{{ item.name }}</div>
-  </div> -->
-
   <design-page class="w-100-percent" [(items)]="items" [itemDrags]="itemDrags" (onActiveItem)="onActiveItem($event)"></design-page>
 
   <pre class="output w-30-percent h-500 m-10" [innerHTML]="syntaxHighlight(items)"></pre>
