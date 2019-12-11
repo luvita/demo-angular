@@ -10,35 +10,43 @@ import { ItemInfo } from './design-page/model/item-info.component';
 export class AppComponent {
   itemDrags: ItemInfo[] = [
     {
+      name: 'textbox',
       element: 'input',
-      name: 'name 1',
+      icon: 'crop_7_5',
+      attribute: {
+        type: 'text'
+      },
+      style: {
+        width: '98px',
+        height: '18px',
+        padding: '0px',
+        borderStyle: 'solid',
+        borderWidth: '1px'
+      },
+      class: {}
+    },
+    {
+      name: 'button',
+      element: 'button',
+      icon: 'add_box',
+      attribute: {
+        innerHTML: 'test'
+      },
       style: {
         width: '100px',
         height: '20px'
+      }
+    },
+    {
+      name: 'label',
+      element: 'div',
+      icon: 'text_format',
+      attribute: {
+        innerHTML: 'text'
       },
-      class: {
-        test: true
-      }
-    },
-    {
-      name: 'name 2',
       style: {
-        width: '200px',
+        width: '100px',
         height: '20px'
-      }
-    },
-    {
-      name: 'name 3',
-      style: {
-        width: '20px',
-        height: '40px'
-      }
-    },
-    {
-      name: 'name 4',
-      style: {
-        width: '300px',
-        height: '200px'
       }
     }
   ];

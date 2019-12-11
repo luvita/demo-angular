@@ -100,13 +100,11 @@
 
       .item-content {
         position: relative;
+        margin: -1px;
 
-        > ::ng-deep * {
-          position: absolute;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 0 !important;
+        input {
+          border-color: #999;
+          transform: translate(0px, -1px);
         }
       }
     }

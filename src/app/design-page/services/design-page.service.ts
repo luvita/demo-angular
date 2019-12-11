@@ -75,7 +75,6 @@ export class DesignPageService {
 
   dragOver(event: DragEvent) {
     if (this.itemSelect) {
-      console.log(this.itemSelect)
       event.preventDefault();
       this.positionSelect.x = this.round10(event.offsetX - parseInt(this.itemSelect.style.width) / 2);
       this.positionSelect.y = this.round10(event.offsetY - parseInt(this.itemSelect.style.height) / 2);
@@ -104,6 +103,7 @@ export class DesignPageService {
     item.id = ++this.itemCount;
     item.position = Object.assign({}, this.positionSelect);
     item.style = Object.assign({}, item.style);
+    item.class = Object.assign({}, item.class);
     this.items.push(item);
     this.itemSelect = null;
   }
@@ -122,6 +122,7 @@ export class DesignPageService {
   mouseUp(event: DragEvent) {
     if (this.itemSelect) {
       delete this.itemSelect.move;
+      delete this.itemSelect.resize;
     }
     this.itemSelect = null;
   }
@@ -135,15 +136,30 @@ export class DesignPageService {
   }
 
   mouseMove(event: MouseEvent) {
-    if (event.which === 1 && this.itemSelect && this.itemSelect.active && this.itemSelect.move) {
+    if (event.which === 1 && this.itemSelect && this.itemSelect.active) {
       const position = this.getPosition(event);
-      this.itemSelect.position.x = this.round10(position.x - this.positionOffset.x);
-      this.itemSelect.position.y = this.round10(position.y - this.positionOffset.y);
+      const x = this.round10(position.x);
+      const y = this.round10(position.y);
+      if (this.itemSelect.move) {
+        this.itemSelect.position.x = this.round10(position.x - this.positionOffset.x);
+        this.itemSelect.position.y = this.round10(position.y - this.positionOffset.y);
+      } else if (this.itemSelect.resize === 'top') {
+        const oldX = this.itemSelect.position.x;
+        const oldY = this.itemSelect.position.y;
+        const newY = parseInt(this.itemSelect.style.height) + oldY - y;
+        if (newY > 10) {
+          this.itemSelect.position.y = y;
+          this.itemSelect.style.height = newY + 'px';
+        }
+      }
     }
   }
 
   resizeTop(event: MouseEvent, item: ItemInfo) {
-    // console.log(item)
+    if (event.which === 1) {
+      item.resize = 'top';
+      this.itemSelect = item;
+    }
   }
 
   resizeTopRight(event: MouseEvent, item: ItemInfo) {

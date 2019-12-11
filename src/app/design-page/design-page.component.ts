@@ -1,5 +1,5 @@
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, HostListener, ViewChild, ElementRef, OnInit, Output, Input, ContentChild, TemplateRef } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, OnInit, Output, Input, ContentChild, TemplateRef, Renderer2, ChangeDetectionStrategy } from '@angular/core';
 import { Position } from './model/position.component';
 import { ItemInfo } from './model/item-info.component';
 import { DesignPageService } from './services/design-page.service';
@@ -9,6 +9,7 @@ import { EventEmitter } from '@angular/core';
   selector: 'design-page',
   templateUrl: './design-page.component.html',
   styleUrls: ['./design-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DesignPageComponent implements OnInit {
   @ViewChild('page', { static: true }) pageElement: ElementRef;
@@ -21,7 +22,8 @@ export class DesignPageComponent implements OnInit {
   @Output() onActiveItem: EventEmitter<ItemInfo> = new EventEmitter<ItemInfo>();
   constructor(
     public designPageService: DesignPageService,
-    private sanitizer: DomSanitizer
+    private hostRef: ElementRef,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -33,8 +35,53 @@ export class DesignPageComponent implements OnInit {
     this.designPageService.onClick(targetElement, this.onActiveItem);
   }
 
-  createElement(element: string): string {
-    const el = document.createElement(element);
+  getContentAttr(): string {
+    const attrs = this.hostRef.nativeElement.attributes;
+    for (let i = 0, l = attrs.length; i < l; i++) {
+      if (attrs[i].name.startsWith('_nghost-')) {
+        return `_ngcontent-${attrs[i].name.substring(8)}`;
+      }
+    }
+  }
+
+  getWidth(item: ItemInfo): number {
+    const el = document.getElementById(`item-${item.id}`);
+    if (el && el.firstChild) {
+      return (el.firstChild as HTMLElement).offsetWidth;
+    } else {
+      return 0;
+    }
+  }
+
+  getHeight(item: ItemInfo): number {
+    const el = document.getElementById(`item-${item.id}`);
+    if (el && el.firstChild) {
+      return (el.firstChild as HTMLElement).offsetHeight;
+    } else {
+      return 0;
+    }
+  }
+
+  createElement(item: ItemInfo): string {
+    const el = document.createElement(item.element);
+    if (item.style) {
+      Object.keys(item.style).forEach(key => {
+        this.renderer.setStyle(el, key, item.style[key]);
+      });
+    }
+    if (item.attribute) {
+      Object.keys(item.attribute).forEach(key => {
+        if (key === 'innerHTML') {
+          el.innerHTML = item.attribute[key];
+        } else {
+          this.renderer.setAttribute(el, key, item.attribute[key]);
+        }
+      });
+    }
+    // if (typeof (el as any).disabled !== 'undefined') {
+    //   this.renderer.setAttribute(el, 'disabled', 'true');
+    // }
+    el.setAttribute(this.getContentAttr(), '');
     return el.outerHTML;
   }
 

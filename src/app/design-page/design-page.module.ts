@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { DesignPageComponent } from './design-page.component';
 import { DesignPageService } from './services/design-page.service';
 import { SafePipe } from './pipe/safe.pipe';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { SafePipe } from './pipe/safe.pipe';
   ],
   imports: [
     CommonModule,
+    MatIconModule
   ],
   providers: [
     DesignPageService
