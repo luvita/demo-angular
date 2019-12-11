@@ -42,49 +42,49 @@
         z-index: 9999;
         display: block;
 
-        &.item-resize-top {
+        &.item-resize-n {
           top: -4px;
           left: calc(50% - 4.5px);
           cursor: ns-resize;
         }
 
-        &.item-resize-top-right {
+        &.item-resize-ne {
           top: -4px;
           right: -4px;
           cursor: nesw-resize;
         }
 
-        &.item-resize-right {
+        &.item-resize-e {
           top: calc(50% - 4.5px);
           right: -4px;
           cursor: ew-resize;
         }
 
-        &.item-resize-bottom-right {
+        &.item-resize-se {
           bottom: -4px;
           right: -4px;
           cursor: nwse-resize;
         }
 
-        &.item-resize-bottom {
+        &.item-resize-s {
           bottom: -4px;
           left: calc(50% - 4.5px);
           cursor: ns-resize;
         }
 
-        &.item-resize-bottom-left {
+        &.item-resize-sw {
           bottom: -4px;
           left: -4px;
           cursor: nesw-resize;
         }
 
-        &.item-resize-left {
+        &.item-resize-w {
           top: calc(50% - 4.5px);
           left: -4px;
           cursor: ew-resize;
         }
 
-        &.item-resize-top-left {
+        &.item-resize-nw {
           top: -4px;
           left: -4px;
           cursor: nwse-resize;
@@ -92,7 +92,7 @@
       }
     }
 
-    .item-container {
+    .item-content {
       border: 1px dotted #999;
       width: 100%;
       height: 100%;
@@ -140,4 +140,54 @@
 }
 .h-500 {
   height: 500px;
+}
+
+.example-container {
+  height: 500px;
+  width: 300px;
+  overflow: auto;
+}
+
+table {
+  width: 98%;
+  text-align: center;
+  margin: 0 auto;
+}
+.mr-320 {
+  margin-left: 320px;
+}
+.bottom-item {
+  background: blanchedalmond;
+}
+.bottom-item-b {
+  width: 22%;
+}
+table td,
+th {
+  text-overflow: ellipsis;
+  border: solid 1px rgb(191, 191, 191);
+}
+table td {
+  background: rgb(211, 211, 211);
+  
+}
+table td:nth-child(1) {  
+  border-right: solid rgb(168, 168, 168) 2px;
+  text-align: left !important;
+}
+table th:nth-child(1) {  
+  border-right: solid rgb(168, 168, 168) 2px;
+  text-align: left !important;
+}
+.mat-row {
+  height: fit-content !important;
+}
+table th.mat-header-cell:last-of-type {
+   padding-right: 0px; 
+}
+.m-2{
+  margin: 2px;
+}
+.mt-10{
+  margin-top: 10px;
 }

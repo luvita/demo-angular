@@ -1,13 +1,44 @@
 <!-- <router-outlet></router-outlet> -->
-
-
 <div class="d-flex">
-  <!-- <div class="w-20-percent">
-    <div class="list-item" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart(item)"
-      (dragend)="dragEnd()">{{ item.name }}</div>
-  </div> -->
+  <design-page class="w-100-percent" [(items)]="items" [itemDrags]="itemDrags" (onActiveItem)="onActiveItem($event)">
+    <ng-template let-item>
+      <ng-container [ngSwitch]="item.type">
+        <div *ngSwitchCase="'input'">
+          <input type="text" />
+        </div>
+        <div *ngSwitchDefault>
+          {{ item.name }}
+        </div>
+      </ng-container>
+    </ng-template>
+  </design-page>
+  <div class="example-container mat-elevation-z8 mt-10">
+    <table class="table-data" mat-table [dataSource]="dataSource">
 
-  <design-page class="w-100-percent" [(items)]="items" [itemDrags]="itemDrags" (onActiveItem)="onActiveItem($event)"></design-page>
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> Filed </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
 
-  <pre class="output w-30-percent h-500 m-10" [innerHTML]="syntaxHighlight(items)"></pre>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Value </th>
+        <td mat-cell *matCellDef="let element">
+            <input value="{{element.name}}"> </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Label </th>
+        <td mat-cell *matCellDef="let element"> 
+            <input value="{{element.weight}}">
+        </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
 </div>
