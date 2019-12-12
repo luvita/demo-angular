@@ -1,3 +1,5 @@
+import { KeyCode } from './../model/key.component';
+import { Attribute } from './../model/attribute.component';
 import { Injectable, ElementRef, EventEmitter } from '@angular/core';
 import { Position } from '../model/position.component';
 import { ItemInfo, Resize } from '../model/item-info.component';
@@ -7,6 +9,7 @@ export class DesignPageService {
   items: ItemInfo[] = [];
 
   itemSelect: ItemInfo = new ItemInfo();
+  itemActive: ItemInfo = new ItemInfo();
 
   positionSelect: Position = new Position();
   positionOffset: Position = new Position();
@@ -16,6 +19,16 @@ export class DesignPageService {
   showShadow: boolean = false;
   itemCount: number = 0;
   counterDragItem: number = 0;
+
+  defaultUnit: number = 10;
+
+  dataSource: Attribute[] = [
+    { name: 'Width', value: 0, prototype: 'width', unit: 'px' },
+    { name: 'Height', value: 0, prototype: 'height', unit: 'px' },
+    { name: 'border', value: 0, prototype: 'borderWidth', unit: 'px' },
+    { name: 'background Color', prototype: 'background-color', value: '/d/abc.img', unit: 'px' },
+  ];
+  displayedColumns = ['name', 'value', 'unit'];
 
   setPageElement(pageElement: ElementRef): void {
     this.pageElement = pageElement;
@@ -32,6 +45,7 @@ export class DesignPageService {
             delete item.active;
           }
         });
+        this.itemSelect = null;
         onActiveItem.emit(null);
       }
     }
@@ -59,8 +73,8 @@ export class DesignPageService {
     };
   }
 
-  round10(number: number) {
-    return Math.round(number / 10) * 10;
+  roundUnit(number: number) {
+    return Math.round(number / this.defaultUnit) * this.defaultUnit;
   }
 
   dragStart(event: DragEvent, item: ItemInfo) {
@@ -76,8 +90,8 @@ export class DesignPageService {
   dragOver(event: DragEvent) {
     if (this.itemSelect) {
       event.preventDefault();
-      this.positionSelect.x = this.round10(event.offsetX - parseInt(this.itemSelect.style.width) / 2);
-      this.positionSelect.y = this.round10(event.offsetY - parseInt(this.itemSelect.style.height) / 2);
+      this.positionSelect.x = this.roundUnit(event.offsetX - parseInt(this.itemSelect.style.width) / 2);
+      this.positionSelect.y = this.roundUnit(event.offsetY - parseInt(this.itemSelect.style.height) / 2);
     }
   }
 
@@ -116,6 +130,7 @@ export class DesignPageService {
     });
     item.active = true;
     this.itemSelect = item;
+    this.itemActive = item;
     onActiveItem.emit(item);
   }
 
@@ -124,7 +139,7 @@ export class DesignPageService {
       delete this.itemSelect.move;
       delete this.itemSelect.resize;
     }
-    this.itemSelect = null;
+    // this.itemSelect = null;
   }
 
   mouseDown(event: MouseEvent, item: ItemInfo, onActiveItem: EventEmitter<ItemInfo>) {
@@ -139,19 +154,23 @@ export class DesignPageService {
     if (event.which === 1 && this.itemSelect && this.itemSelect.active) {
       const position = this.getPosition(event);
       if (this.itemSelect.move) {
-        this.itemSelect.position.x = this.round10(position.x - this.positionOffset.x);
-        this.itemSelect.position.y = this.round10(position.y - this.positionOffset.y);
+        this.itemSelect.position.x = this.roundUnit(position.x - this.positionOffset.x);
+        this.itemSelect.position.y = this.roundUnit(position.y - this.positionOffset.y);
       } else if (this.itemSelect.resize) {
-        const x = this.round10(position.x);
-        const y = this.round10(position.y);
+        const x = this.roundUnit(position.x);
+        const y = this.roundUnit(position.y);
         const oldX = this.itemSelect.position.x;
         const oldY = this.itemSelect.position.y;
         let newX: number = 0;
         let newY: number = 0;
+        let borderWidth: number = 0;
+        if (this.itemSelect.element === 'input') {
+          borderWidth = parseInt(this.itemSelect.style.borderWidth) | 0;
+        }
         switch (this.itemSelect.resize) {
           case Resize.TOP:
             newY = parseInt(this.itemSelect.style.height) + oldY - y;
-            if (newY > 10) {
+            if (newY >= this.defaultUnit) {
               this.itemSelect.position.y = y;
               this.itemSelect.style.height = newY + 'px';
             }
@@ -159,57 +178,57 @@ export class DesignPageService {
           case Resize.TOPRIGHT:
             newX = x - oldX;
             newY = parseInt(this.itemSelect.style.height) + oldY - y;
-            if (newX > 10 && newY > 10) {
+            if (newX >= this.defaultUnit && newY >= this.defaultUnit) {
               this.itemSelect.position.y = y;
               this.itemSelect.style.height = newY + 'px';
-              this.itemSelect.style.width = x - oldX + 'px';
+              this.itemSelect.style.width = newX - 2 * borderWidth + 'px';
             }
             break;
           case Resize.RIGHT:
             newX = x - oldX;
-            if (newX > 10) {
-              this.itemSelect.style.width = x - oldX + 'px';
+            if (newX >= this.defaultUnit) {
+              this.itemSelect.style.width = newX - 2 * borderWidth + 'px';
             }
             break;
           case Resize.BOTTOMRIGHT:
             newX = x - oldX;
             newY = y - oldY;
-            if (newX > 10 && newY > 10) {
-              this.itemSelect.style.width = x - oldX + 'px';
-              this.itemSelect.style.height = y - oldY + 'px';
+            if (newX >= this.defaultUnit && newY >= this.defaultUnit) {
+              this.itemSelect.style.width = newX - 2 * borderWidth + 'px';
+              this.itemSelect.style.height = newY - 2 * borderWidth + 'px';
             }
             break;
           case Resize.BOTTOM:
             newY = y - oldY;
-            if (newY > 10) {
-              this.itemSelect.style.height = y - oldY + 'px';
+            if (newY >= this.defaultUnit) {
+              this.itemSelect.style.height = newY - 2 * borderWidth + 'px';
             }
             break;
           case Resize.BOTTOMLEFT:
             newX = parseInt(this.itemSelect.style.width) + oldX - x;
             newY = y - oldY;
-            if (newX > 10 && newY > 10) {
+            if (newX >= this.defaultUnit && newY >= this.defaultUnit) {
               this.itemSelect.position.x = x;
               this.itemSelect.style.width = newX + 'px';
-              this.itemSelect.style.height = y - oldY + 'px';
+              this.itemSelect.style.height = newY - 2 * borderWidth + 'px';
             }
             break;
           case Resize.LEFT:
             newX = parseInt(this.itemSelect.style.width) + oldX - x;
-            if (newX > 10) {
+            if (newX >= this.defaultUnit) {
               this.itemSelect.position.x = x;
               this.itemSelect.style.width = newX + 'px';
             }
             break;
           case Resize.TOPLEFT:
-              newX = parseInt(this.itemSelect.style.width) + oldX - x;
-              newY = parseInt(this.itemSelect.style.height) + oldY - y;
-              if (newX > 10 && newY > 10) {
-                this.itemSelect.position.x = x;
-                this.itemSelect.style.width = newX + 'px';
-                this.itemSelect.position.y = y;
-                this.itemSelect.style.height = newY + 'px';
-              }
+            newX = parseInt(this.itemSelect.style.width) + oldX - x;
+            newY = parseInt(this.itemSelect.style.height) + oldY - y;
+            if (newX >= this.defaultUnit && newY >= this.defaultUnit) {
+              this.itemSelect.position.x = x;
+              this.itemSelect.style.width = newX + 'px';
+              this.itemSelect.position.y = y;
+              this.itemSelect.style.height = newY + 'px';
+            }
             break;
         }
       }
@@ -220,6 +239,29 @@ export class DesignPageService {
     if (event.which === 1) {
       item.resize = type;
       this.itemSelect = item;
+    }
+  }
+
+  keyDown(event: KeyboardEvent) {
+    if (this.itemSelect) {
+      switch (event.keyCode) {
+        case KeyCode.KEY_DELETE:
+          this.items.splice(this.items.findIndex(item => item.id === this.itemSelect.id), 1);
+          this.itemSelect = null;
+          break;
+        case KeyCode.KEY_UP:
+          this.itemSelect.position.y = this.itemSelect.position.y - this.defaultUnit;
+          break;
+        case KeyCode.KEY_DOWN:
+          this.itemSelect.position.y = this.itemSelect.position.y + this.defaultUnit;
+          break;
+        case KeyCode.KEY_LEFT:
+          this.itemSelect.position.x = this.itemSelect.position.x - this.defaultUnit;
+          break;
+        case KeyCode.KEY_RIGHT:
+          this.itemSelect.position.x = this.itemSelect.position.x + this.defaultUnit;
+          break;
+      }
     }
   }
 }

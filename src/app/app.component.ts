@@ -30,7 +30,7 @@ export class AppComponent {
       element: 'button',
       icon: 'add_box',
       attribute: {
-        innerHTML: 'test'
+        innerHTML: 'button'
       },
       style: {
         width: '100px',

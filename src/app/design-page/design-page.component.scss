@@ -51,7 +51,16 @@
 
       .item-container {
         border-style: solid;
+        cursor: move;
         // pointer-events: none;
+        
+        .item-content {
+          cursor: move;
+
+          * {
+            cursor: move;
+          }
+        }
       }
 
       .item-resize {
@@ -124,7 +133,7 @@
         
         .item-content {
           transform: translate(0px, -1px);
-  
+
           input, button {
             border-color: #999;
           }
@@ -132,7 +141,13 @@
       }
 
       .item-content {
+        cursor: default;
         transform: translate(-1px, -1px);
+
+        * {
+          cursor: default;
+          outline: none;
+        }
       }
     }
 
@@ -156,6 +171,9 @@
 }
 .w-50-percent {
   width: 50%;
+}
+.w-60-percent {
+  width: 60%;
 }
 .w-80-percent {
   width: 80%;

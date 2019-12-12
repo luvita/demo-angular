@@ -1,3 +1,4 @@
+import { Attribute } from './model/attribute.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Component, HostListener, ViewChild, ElementRef, OnInit, Output, Input, ContentChild, TemplateRef, Renderer2, ChangeDetectionStrategy } from '@angular/core';
 import { Position } from './model/position.component';
@@ -33,6 +34,11 @@ export class DesignPageComponent implements OnInit {
   @HostListener('window:mousedown', ['$event.target'])
   onClick(targetElement: HTMLButtonElement) {
     this.designPageService.onClick(targetElement, this.onActiveItem);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyDown(event: KeyboardEvent) {
+    this.designPageService.keyDown(event);
   }
 
   getContentAttr(): string {
@@ -78,9 +84,6 @@ export class DesignPageComponent implements OnInit {
         }
       });
     }
-    // if (typeof (el as any).disabled !== 'undefined') {
-    //   this.renderer.setAttribute(el, 'disabled', 'true');
-    // }
     el.setAttribute(this.getContentAttr(), '');
     return el.outerHTML;
   }

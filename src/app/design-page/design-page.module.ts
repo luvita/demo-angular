@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { DesignPageComponent } from './design-page.component';
 import { DesignPageService } from './services/design-page.service';
 import { SafePipe } from './pipe/safe.pipe';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatTableModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    FormsModule
   ],
   providers: [
     DesignPageService
