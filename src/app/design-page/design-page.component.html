@@ -9,7 +9,7 @@
   <div class="w-60-percent p-10">
     <div class="page" [class.no-event]="designPageService.showShadow" [class.is-preview]="designPageService.isPereview" (dragover)="dragOver($event)"
       (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)"
-      (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" (mousedown)="onClick($event.target)" #page>
+      (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" #page>
       <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
         [style.left.px]="item.position.x" [style.top.px]="item.position.y" [style.width.px]="getWidth(item)"
         [style.height.px]="getHeight(item)">
@@ -42,7 +42,7 @@
     </mat-button-toggle-group>
   </div>
   
-  <div class="w-20-percent">
+  <div class="design-page-property w-20-percent">
     <div class="title-property">
         property
     </div>

@@ -33,7 +33,7 @@ export class DesignPageComponent implements OnInit {
     this.designPageService.setPageElement(this.pageElement);
   }
 
-  // @HostListener('window:mousedown', ['$event.target'])
+  @HostListener('window:mousedown', ['$event.target'])
   onClick(targetElement: HTMLButtonElement) {
     this.designPageService.onClick(targetElement, this.onActiveItem);
   }

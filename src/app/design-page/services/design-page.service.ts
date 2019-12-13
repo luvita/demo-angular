@@ -44,8 +44,6 @@ export class DesignPageService {
   ];
   displayedColumnsProperty = ['name', 'value'];
 
-
-
   setPageElement(pageElement: ElementRef): void {
     this.pageElement = pageElement;
     this.positionPage = this.getBoundingClientRect(this.pageElement.nativeElement);
@@ -55,7 +53,7 @@ export class DesignPageService {
     if (this.isPereview === false) {
       const activeElement = this.pageElement.nativeElement.querySelector('.active');
       if (activeElement) {
-        const clickedInside = activeElement.contains(targetElement);
+        const clickedInside = activeElement.contains(targetElement) || !!targetElement.closest('.design-page-property');
         if (!clickedInside) {
           this.items.forEach((item) => {
             if (item.active) {
@@ -284,8 +282,13 @@ export class DesignPageService {
   }
 
   keyDown(event: KeyboardEvent) {
+    if ((event.target as HTMLElement).closest('.design-page-property')) {
+      return;
+    }
+
     if (this.isPereview === false) {
       if (this.itemSelect) {
+        event.preventDefault();
         switch (event.keyCode) {
           case KeyCode.KEY_DELETE:
             this.items.splice(this.items.findIndex(item => item.id === this.itemSelect.id), 1);
