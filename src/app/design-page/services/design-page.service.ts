@@ -3,6 +3,7 @@ import { Attribute } from './../model/attribute.component';
 import { Injectable, ElementRef, EventEmitter } from '@angular/core';
 import { Position } from '../model/position.component';
 import { ItemInfo, Resize } from '../model/item-info.component';
+import { AttributeProperty } from '../model/attribute-property.component';
 
 @Injectable()
 export class DesignPageService {
@@ -26,9 +27,22 @@ export class DesignPageService {
     { name: 'Width', value: 0, prototype: 'width', unit: 'px' },
     { name: 'Height', value: 0, prototype: 'height', unit: 'px' },
     { name: 'border', value: 0, prototype: 'borderWidth', unit: 'px' },
-    { name: 'background Color', prototype: 'background-color', value: '/d/abc.img', unit: 'px' },
+    { name: 'background Color', prototype: 'background-color', value: '/d/abc.img', unit: '' },
   ];
   displayedColumns = ['name', 'value', 'unit'];
+
+  dataProperty: AttributeProperty[] = [
+    {
+      name: 'Text',
+      type: {
+        textbox: 'value',
+        button: 'innerHTML'
+      }
+    },
+  ];
+  displayedColumnsProperty = ['name', 'value'];
+
+
 
   setPageElement(pageElement: ElementRef): void {
     this.pageElement = pageElement;
@@ -46,6 +60,7 @@ export class DesignPageService {
           }
         });
         this.itemSelect = null;
+        this.itemActive = new ItemInfo();
         onActiveItem.emit(null);
       }
     }
@@ -116,6 +131,7 @@ export class DesignPageService {
     let item: ItemInfo = Object.assign({}, this.itemSelect);
     item.id = ++this.itemCount;
     item.position = Object.assign({}, this.positionSelect);
+    item.attribute = Object.assign({}, item.style);
     item.style = Object.assign({}, item.style);
     item.class = Object.assign({}, item.class);
     this.items.push(item);

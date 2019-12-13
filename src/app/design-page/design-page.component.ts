@@ -13,6 +13,8 @@ import { EventEmitter } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DesignPageComponent implements OnInit {
+
+  notMouseDown: boolean = true;
   @ViewChild('page', { static: true }) pageElement: ElementRef;
   @Input('items')
   set items(value: ItemInfo[]) {
@@ -31,7 +33,7 @@ export class DesignPageComponent implements OnInit {
     this.designPageService.setPageElement(this.pageElement);
   }
 
-  @HostListener('window:mousedown', ['$event.target'])
+  // @HostListener('window:mousedown', ['$event.target'])
   onClick(targetElement: HTMLButtonElement) {
     this.designPageService.onClick(targetElement, this.onActiveItem);
   }

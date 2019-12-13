@@ -14,7 +14,9 @@ export class AppComponent {
       element: 'input',
       icon: 'crop_7_5',
       attribute: {
-        type: 'text'
+        type: 'text',
+        innerHTML: 'Text',
+        value: 'demo'
       },
       style: {
         width: '98px',
