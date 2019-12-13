@@ -1,50 +1,60 @@
-<div class="d-flex">
-  <div class="item-drag-list w-20-percent">
+<div class="d-flex h-100-percent">
+  <div class="item-drag-list w-20-percent" [class.is-preview]="designPageService.isPereview">
     <div class="item-drag" *ngFor="let item of itemDrags" draggable="true" (dragstart)="dragStart($event, item)"
       (dragend)="dragEnd($event)">
       <mat-icon class="item-drag-icon" aria-hidden="false">{{item.icon}}</mat-icon> {{item.name}}
     </div>
   </div>
 
-  <div class="page w-60-percent h-500 m-10" [class.no-event]="designPageService.showShadow"
-    (dragover)="dragOver($event)" (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)"
-    (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" #page (mousedown)="onClick($event.target)">
-    <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
-      [style.left.px]="item.position.x" [style.top.px]="item.position.y" [style.width.px]="getWidth(item)"
-      [style.height.px]="getHeight(item)">
-      <div class="item-container" [ngClass]="item.element" (mousedown)="mouseDown($event, item)">
-        <div class="item-content" [id]="'item-' + item.id" [innerHTML]="createElement(item) | safe: 'html'"
-          [ngClass]="item.class"></div>
+  <div class="w-60-percent p-10">
+    <div class="page" [class.no-event]="designPageService.showShadow" [class.is-preview]="designPageService.isPereview" (dragover)="dragOver($event)"
+      (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)"
+      (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)" (mousedown)="onClick($event.target)" #page>
+      <div class="item" [class.active]="item.active" *ngFor="let item of designPageService.items"
+        [style.left.px]="item.position.x" [style.top.px]="item.position.y" [style.width.px]="getWidth(item)"
+        [style.height.px]="getHeight(item)">
+        <div class="item-container" [ngClass]="item.element" (mousedown)="mouseDown($event, item)">
+          <div class="item-content" [id]="'item-' + item.id" [innerHTML]="createElement(item) | safe: 'html'"
+            [ngClass]="item.class"></div>
+        </div>
+        <div class="item-resize item-resize-top" (mousedown)="resizeTop($event, item)"></div>
+        <div class="item-resize item-resize-top-right" (mousedown)="resizeTopRight($event, item)"></div>
+        <div class="item-resize item-resize-right" (mousedown)="resizeRight($event, item)"></div>
+        <div class="item-resize item-resize-bottom-right" (mousedown)="resizeBottomRight($event, item)"></div>
+        <div class="item-resize item-resize-bottom" (mousedown)="resizeBottom($event, item)"></div>
+        <div class="item-resize item-resize-bottom-left" (mousedown)="resizeBottomLeft($event, item)"></div>
+        <div class="item-resize item-resize-left" (mousedown)="resizeLeft($event, item)"></div>
+        <div class="item-resize item-resize-top-left" (mousedown)="resizeTopLeft($event, item)"></div>
       </div>
-      <div class="item-resize item-resize-top" (mousedown)="resizeTop($event, item)"></div>
-      <div class="item-resize item-resize-top-right" (mousedown)="resizeTopRight($event, item)"></div>
-      <div class="item-resize item-resize-right" (mousedown)="resizeRight($event, item)"></div>
-      <div class="item-resize item-resize-bottom-right" (mousedown)="resizeBottomRight($event, item)"></div>
-      <div class="item-resize item-resize-bottom" (mousedown)="resizeBottom($event, item)"></div>
-      <div class="item-resize item-resize-bottom-left" (mousedown)="resizeBottomLeft($event, item)"></div>
-      <div class="item-resize item-resize-left" (mousedown)="resizeLeft($event, item)"></div>
-      <div class="item-resize item-resize-top-left" (mousedown)="resizeTopLeft($event, item)"></div>
+      <div class="item item-drag-placeholder" *ngIf="designPageService.itemSelect && designPageService.showShadow"
+        [style.left.px]="designPageService.positionSelect.x" [style.top.px]="designPageService.positionSelect.y"
+        [ngStyle]="designPageService.itemSelect.style">
+        <div class="item-content"></div>
+      </div>
     </div>
-    <div class="item item-drag-placeholder" *ngIf="designPageService.itemSelect && designPageService.showShadow"
-      [style.left.px]="designPageService.positionSelect.x" [style.top.px]="designPageService.positionSelect.y"
-      [ngStyle]="designPageService.itemSelect.style">
-      <div class="item-content"></div>
-    </div>
+    <mat-button-toggle-group class="mode" [(ngModel)]="designPageService.isPereview">
+      <mat-button-toggle [value]="false" aria-label="Text align left">
+        <mat-icon>edit</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle [value]="true" aria-label="Text align center">
+        <mat-icon>remove_red_eye</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
   
   <div class="w-20-percent">
     <div class="title-property">
         property
     </div>
-    <table class="table-data" mat-table [dataSource]="designPageService.dataProperty">
+    <table mat-table [dataSource]="designPageService.dataProperty">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th mat-header-cell *matHeaderCellDef class="w-50-percent"> Name </th>
+        <td mat-cell *matCellDef="let element" class="w-50-percent"> {{element.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="value">
-        <th mat-header-cell *matHeaderCellDef> Value </th>
-        <td mat-cell *matCellDef="let element">
+        <th mat-header-cell *matHeaderCellDef class="w-50-percent"> Value </th>
+        <td mat-cell *matCellDef="let element" class="w-50-percent">
           <input type="text" *ngIf="designPageService.itemActive && designPageService.itemActive.attribute" 
             [(ngModel)]="designPageService.itemActive.attribute[element.type[designPageService.itemActive.name]]" class="w-100-percent">
           <input type="text" *ngIf="!designPageService.itemActive || !designPageService.itemActive.attribute" class="w-100-percent">
@@ -58,23 +68,18 @@
     <div class="title-property">
       style
     </div>
-    <table class="table-data" mat-table [dataSource]="designPageService.dataSource">
+    <table mat-table [dataSource]="designPageService.dataSource">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th mat-header-cell *matHeaderCellDef class="w-50-percent"> Name </th>
+        <td mat-cell *matCellDef="let element" class="w-50-percent"> {{element.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="value">
-        <th mat-header-cell *matHeaderCellDef> Value </th>
-        <td mat-cell *matCellDef="let element">
-          <input type="text" *ngIf="designPageService.itemActive && designPageService.itemActive.style" 
-          [(ngModel)]="designPageService.itemActive.style[element.prototype]" class="w-100-percent">
+        <th mat-header-cell *matHeaderCellDef class="w-50-percent"> Value </th>
+        <td mat-cell *matCellDef="let element" class="w-50-percent">
+          <input type="text" *ngIf="designPageService.itemActive && designPageService.itemActive.style"
+            [(ngModel)]="designPageService.itemActive.style[element.prototype]" class="w-100-percent">
         </td>
-      </ng-container>
-
-      <ng-container matColumnDef="unit">
-        <th mat-header-cell *matHeaderCellDef> Unit </th>
-        <td mat-cell *matCellDef="let element">{{element.unit}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="designPageService.displayedColumns; sticky: true"></tr>

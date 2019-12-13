@@ -5,6 +5,7 @@ import { DesignPageService } from './services/design-page.service';
 import { SafePipe } from './pipe/safe.pipe';
 import { MatIconModule, MatTableModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -13,9 +14,10 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MatIconModule,
     MatTableModule,
-    FormsModule
+    MatButtonToggleModule
   ],
   providers: [
     DesignPageService
